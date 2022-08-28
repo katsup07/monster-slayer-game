@@ -52,6 +52,11 @@ section {
   border-radius: 12px;
 }
 
+div.right{
+  width: 30vw;
+  border-radius: 20px;
+}
+
 #monster h2,
 #player h2 {
   margin: 0.25rem;
@@ -127,12 +132,21 @@ button:disabled {
   color: green;
 }
 
+.log--intro {
+  color: rgb(128, 66, 0);
+}
+
+.preventClicks{
+  pointer-events: none;
+}
+
+
 @media screen and (width < 1500px){
   #game{
     flex-direction: column;
   }
 
   #log{
-    width: 100vw;
+    width: 40vw;
   }
 }

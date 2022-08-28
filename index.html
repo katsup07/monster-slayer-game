@@ -23,7 +23,7 @@
           <div class="healthbar">
             <div
               class="healthbar__value"
-              :style="{width: monsterHealth > 0 ? monsterHealth.toString()+'%' : '0%'}"
+              :style="monsterBarStyles"
             ></div>
           </div>
         </section>
@@ -32,18 +32,29 @@
           <div class="healthbar">
             <div
               class="healthbar__value"
-              :style="{width: playerHealth > 0 ? playerHealth.toString()+'%' : '0%'}"
+              :style="playerBarStyles"
             ></div>
           </div>
         </section>
-        <section id="controls">
+        <section id="controls" :class="{preventClicks: areClicksAllowed}">
           <button @click="attackMonster">ATTACK</button>
-          <button @click="specialAttackMonster">SPECIAL ATTACK</button>
+          <button @click="specialAttackMonster" :disabled="mayUseSpecialAttack">SPECIAL ATTACK</button>
           <button @click="healPlayer">HEAL</button>
-          <button>SURRENDER</button>
+          <button @click="escape">ESCAPE</button>
         </section>
       </div>
       <div class="right">
+        <section class="container">
+
+          <h2 v-if="result==='Match started'">Match in progress...</h2>
+          <h3 v-if="result==='win'">You win!</h3>
+          <h3 v-else-if="result==='lose'">You lose!</h3>
+          <h3 v-else-if="result==='draw'">It's a draw.</h3>
+          <h3 v-else-if="result==='escape safely'">~You successfully escape to safety!~</h3>
+          <h3 v-else-if="result==='escape unsuccessfully'">The monster catches you running, pins you, and eats you alive!!</h3>
+          <h3 v-else-if="result==='too weak to escape'">You are too weak to escape and the monster drags you home for dinner.</h3>
+          <button @click="startNewGame">New Game</button>
+        </section>
         <section id="log" class="container">
           <h2>Battle Log</h2>
           <ul>
@@ -55,6 +66,9 @@
                 {{log}}
               </div>
               <div class="log--player" v-else-if="log.includes('Player')">
+                {{log}}
+              </div>
+              <div class="log--intro" v-else-if="log.includes('monster')">
                 {{log}}
               </div>
             </li>
