@@ -44,36 +44,39 @@
         </section>
       </div>
       <div class="right">
-        <section class="container">
-
-          <h2 v-if="result==='Match started'">Match in progress...</h2>
+        <div class="log-container">
           <h3 v-if="result==='win'">You win!</h3>
           <h3 v-else-if="result==='lose'">You lose!</h3>
           <h3 v-else-if="result==='draw'">It's a draw.</h3>
           <h3 v-else-if="result==='escape safely'">~You successfully escape to safety!~</h3>
           <h3 v-else-if="result==='escape unsuccessfully'">The monster catches you running, pins you, and eats you alive!!</h3>
           <h3 v-else-if="result==='too weak to escape'">You are too weak to escape and the monster drags you home for dinner.</h3>
-          <button @click="startNewGame">New Game</button>
-        </section>
-        <section id="log" class="container">
-          <h2>Battle Log</h2>
-          <ul>
-            <li v-for="log in battleLog">
-              <div class="log--player" v-if="log.includes('Player')">
-                {{log}}
-              </div>
-              <div class="log--monster" v-else-if="log.includes('Monster')">
-                {{log}}
-              </div>
-              <div class="log--player" v-else-if="log.includes('Player')">
-                {{log}}
-              </div>
-              <div class="log--intro" v-else-if="log.includes('monster')">
-                {{log}}
-              </div>
-            </li>
-          </ul>
-        </section>
+                </section>
+                <section id="log" class="container">
+            <h2 v-if="result==='Match started'">Match in progress...</h2>
+            <button @click="startNewGame">New Game</button>
+            <h2>Battle Log</h2>
+            <ul>
+              <li v-for="log in battleLog">
+                <div class="log--player" v-if="log.actionBy==='player' && log.actionType==='attack'">
+                {{log.actionBy}} {{log.actionType}} - <span class="log--damage">{{log.actionValue}}pts</span>
+                </div>
+          
+                <div class="log--player" v-else-if="log.actionBy==='player' && log.actionType==='special-attack'">
+                  {{log.actionBy}} {{log.actionType}} - <span class="log--damage">{{log.actionValue}}pts</span>
+                </div>
+          
+                <div class="log--monster" v-else-if="log.actionBy === 'monster' && log.actionType==='attack'">
+                  {{log.actionBy}} {{log.actionType}} - <span class="log--damage">{{log.actionValue}}pts</span>
+                </div>
+          
+                <div class="log--player" v-else-if="log.actionBy === 'player' && log.actionType === 'heal'">
+                  {{log.actionBy}} {{log.actionType}} - <span class="log--heal">{{log.actionValue}}</span>
+                </div>
+              </li>
+            </ul>
+          </section>
+        </div>
       </div>
     </div>
   </body>

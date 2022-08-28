@@ -7,9 +7,7 @@ const app = Vue.createApp({
     return {
       playerHealth: 100,
       monsterHealth: 100,
-      battleLog: [
-        "It's dangerous out there! Take this sword with you, young warrior! Oh no! Here comes a giant moster to fight! Try your best!",
-      ],
+      battleLog: ['...'],
       currentRound: 0,
       result: null,
     };
@@ -57,14 +55,14 @@ const app = Vue.createApp({
       if (this.monsterHealth - attackValue < 0) this.monsterHealth = 0;
       else this.monsterHealth -= attackValue;
       console.log(this.playerHealth, this.monsterHealth);
-      this.logInBattleLog(`Player deals ${attackValue} damage`);
+      this.logInBattleLog('player', 'attack', attackValue);
       this.attackPlayer();
     },
     attackPlayer() {
       const attackValue = getRandomValue(8, 15);
       if (this.playerHealth - attackValue < 0) this.playerHealth = 0;
       else this.playerHealth -= attackValue;
-      this.logInBattleLog(`Monster does ${attackValue} damage`);
+      this.logInBattleLog('monster', 'attack', attackValue);
     },
 
     specialAttackMonster() {
@@ -72,9 +70,7 @@ const app = Vue.createApp({
       const attackValue = getRandomValue(10, 25);
       if (this.monsterHealth - attackValue < 0) this.monsterHealth = 0;
       else this.monsterHealth -= attackValue;
-      this.logInBattleLog(
-        `Player's special attack deals ${attackValue} damage`
-      );
+      this.logInBattleLog('player', 'special-attack', attackValue);
       console.log(this.playerHealth, this.monsterHealth);
       this.attackPlayer();
     },
@@ -83,12 +79,17 @@ const app = Vue.createApp({
       const healValue = getRandomValue(5, 18);
       if (this.playerHealth + healValue < 100) this.playerHealth += healValue;
       else this.playerHealth = 100;
-      this.logInBattleLog(`Player heals ${healValue} health points`);
+      this.logInBattleLog('player', 'heal', healValue);
       this.attackPlayer();
-      console.log(this.playerHealth, this.monsterHealth);
+      console.log('heal player', this.playerHealth, this.monsterHealth);
     },
-    logInBattleLog(action) {
-      this.battleLog.unshift(action);
+
+    logInBattleLog(who, what, value) {
+      this.battleLog.unshift({
+        actionBy: who,
+        actionType: what,
+        actionValue: value,
+      });
     },
     currentPlayerHealth() {
       return this.playerHealth > 0 ? `${this.playerHealth.toString()}%` : '0%';
@@ -98,6 +99,7 @@ const app = Vue.createApp({
       this.monsterHealth = 100;
       this.currentRound = 0;
       this.result = 'Match started';
+      this.battleLog = [];
     },
     escape() {
       const number = getRandomValue(0, 10);

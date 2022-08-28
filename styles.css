@@ -21,7 +21,8 @@ header {
 
 #game{
   display: flex;
-  justify-content: center;
+ justify-content: center;
+ gap: 1rem;
 }
 
 section {
@@ -46,20 +47,32 @@ section {
 
 .container {
   text-align: center;
+  width: 40vw;
   padding: 0.5rem;
   margin: 1rem auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 12px;
 }
 
+.right .log-container{
+  
+}
 div.right{
-  width: 30vw;
+  display: flex;
+  justify-content: center;
   border-radius: 20px;
+  max-width: 100vw;
 }
 
 #monster h2,
 #player h2 {
   margin: 0.25rem;
+}
+
+.right h3{
+  font-size: 1.5rem;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.229);
 }
 
 #controls {
@@ -102,8 +115,9 @@ button:disabled {
   cursor: not-allowed;
 }
 
-#log{
-  width: 20vw;
+section#log{
+  width: 30vw;
+ 
 }
 
 #log ul {
@@ -118,14 +132,21 @@ button:disabled {
 
 .log--player {
   color: #7700ff;
+  font-weight: 900;
 }
 
 .log--monster {
   color: #da8d00;
+  font-weight: 900;
 }
 
 .log--damage {
-  color: red;
+  color: rgb(255, 0, 0);
+  font-weight: 900;
+}
+.log--big-damage {
+  color: rgb(0, 255, 213);
+  font-weight: 900;
 }
 
 .log--heal {
